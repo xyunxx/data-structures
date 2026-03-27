@@ -84,6 +84,9 @@ def main():
         selected = SUITES
 
     print()
+    print("╔══════════════════════════════════════════════════════════════════╗")
+    print("║              TDD CHALLENGE  —  SCOREBOARD                        ║")
+    print("╚══════════════════════════════════════════════════════════════════╝")
     print()
 
     results = {}
@@ -112,7 +115,9 @@ def main():
         print(f"done ({duration:.1f}s)")
 
     print()
+    print("─" * 66)
     print(f"  {'Data Structure':<24} {'Score':>12}  {'':>30}  {'Time':>6}")
+    print("─" * 66)
 
     for name, (passed, total, duration) in results.items():
         pct = passed / total if total > 0 else 0
@@ -120,24 +125,26 @@ def main():
         pct_str = f"({pct:5.1%})"
         b = bar(pct)
         t = f"{duration:.1f}s"
-       #print(f"  {name:<24} {score_str} {pct_str}  {b}  {t:>6}")
+        print(f"  {name:<24} {score_str} {pct_str}  {b}  {t:>6}")
+
+    print("─" * 66)
 
     overall_pct = total_passed / total_tests if total_tests > 0 else 0
     print(
-        #f"  {'TOTAL':<24} {total_passed:>3} / {total_tests:<3} ({overall_pct:5.1%})  {bar(overall_pct)}  {total_time:.1f}s"
+        f"  {'TOTAL':<24} {total_passed:>3} / {total_tests:<3} ({overall_pct:5.1%})  {bar(overall_pct)}  {total_time:.1f}s"
     )
     print()
 
     if overall_pct == 1.0:
-        print("  ★ PERFECT SCORE - All tests passing! ★")
+        print("  ★ PERFECT SCORE — All tests passing! ★")
     elif overall_pct >= 0.9:
-        print("  Almost there - just a few more to go!")
+        print("  Almost there — just a few more to go!")
     elif overall_pct >= 0.5:
-        print("  Great progress - over halfway!")
+        print("  Great progress — over halfway!")
     elif overall_pct > 0:
-        print("  Off to a good start - keep implementing!")
+        print("  Off to a good start — keep implementing!")
     else:
-        print("  No tests passing yet time to start coding!")
+        print("  No tests passing yet — time to start coding!")
     print()
 
 

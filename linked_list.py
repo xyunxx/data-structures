@@ -22,19 +22,22 @@ class LinkedList:
     """A singly linked list."""
 
     def __init__(self, iterable=None):
-        """Initialize the list, optionally from an iterable.
+        self.head = Node(None)
+        self.tail = self.head
+        self.len = 0
 
-        Hint: store the first node as self.head (some tests access it directly).
-        """
-        raise NotImplementedError
+        if iterable:
+            for i in iterable:
+                self.push_back(i)
 
     def __len__(self):
-        """Return the number of elements in the list."""
-        raise NotImplementedError
+        return self.len
 
     def __iter__(self):
-        """Iterate over the values in the list."""
-        raise NotImplementedError
+        n = self.head.next
+        while n:
+            yield n.value
+            n = n.next
 
     def __repr__(self):
         """Return a string like LinkedList([1, 2, 3])."""
@@ -67,8 +70,10 @@ class LinkedList:
         raise NotImplementedError
 
     def push_back(self, value):
-        """Add a value to the end of the list."""
-        raise NotImplementedError
+        n = Node(value)
+        self.tail.next = n
+        self.tail = n
+        self.len += 1
 
     def pop_front(self):
         """Remove and return the front value. Raise IndexError if empty."""
