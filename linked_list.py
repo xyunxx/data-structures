@@ -66,8 +66,9 @@ class LinkedList:
         raise NotImplementedError
 
     def push_front(self, value):
-        """Add a value to the front of the list. O(1)."""
-        raise NotImplementedError
+        n = Node(value, self.head.next)
+        self.head.next = n
+        self.len += 1
 
     def push_back(self, value):
         n = Node(value)
@@ -98,8 +99,7 @@ class LinkedList:
         raise NotImplementedError
 
     def copy(self):
-        """Return a new LinkedList that is a shallow copy of this list."""
-        raise NotImplementedError
+        return LinkedList(self)
 
     def count(self, value):
         """Return the number of occurrences of value."""
