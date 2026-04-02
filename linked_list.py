@@ -24,15 +24,19 @@ class LinkedList:
     def __init__(self, iterable=None):
         """Initialize the list, optionally from an iterable.
 
-        Hint: store the first node as self.head (some tests access it directly).
+        Hint: store the first node as self._head (some tests access it directly).
         """
-        self.head = Node(None)
-        self.tail = self.head
+        self._head = Node(None)
+        self.tail = self._head
         self.len = 0
 
         if iterable:
             for i in iterable:
                 self.push_back(i)
+
+    @property
+    def head(self):
+        return self._head.next
 
     def __len__(self):
         """Return the number of elements in the list."""
@@ -40,7 +44,7 @@ class LinkedList:
 
     def __iter__(self):
         """Iterate over the values in the list."""
-        n = self.head.next
+        n = self._head.next
         while n:
             yield n.value
             n = n.next
@@ -77,7 +81,7 @@ class LinkedList:
         if index >= 0:
             if index >= len(self):
                 raise IndexError
-            cursor = self.head.next
+            cursor = self._head.next
             for _ in range(index):
                 cursor = cursor.next
             return cursor.value
@@ -89,7 +93,17 @@ class LinkedList:
     def __setitem__(self, index, value):
         """Set the value at the given index. Support negative indices.
         Raise IndexError if the index is out of range."""
-        raise NotImplementedError
+        if index >= 0:
+            if index >= len(self):
+                raise IndexError
+            cursor = self._head.next
+            for _ in range(index):
+                cursor = cursor.next
+            cursor.value = value
+        else:
+            if abs(index) > len(self):
+                raise IndexError
+            self[len(self) + index] = value
 
     def is_empty(self):
         """Return True if the list has no elements."""
@@ -97,8 +111,8 @@ class LinkedList:
 
     def push_front(self, value):
         """Add a value to the front of the list. O(1)."""
-        n = Node(value, self.head.next)
-        self.head.next = n
+        n = Node(value, self._head.next)
+        self._head.next = n
         self.len += 1
 
     def push_back(self, value):
@@ -112,29 +126,73 @@ class LinkedList:
         """Remove and return the front value. Raise IndexError if empty."""
         if self.is_empty():
             raise IndexError
-        val = self.head.next.value
-        self.head.next = self.head.next.next
+        val = self._head.next.value
+        self._head.next = self._head.next.next
+        self.len -= 1
         return val
 
     def pop_back(self):
         """Remove and return the last value. Raise IndexError if empty."""
         if self.is_empty():
             raise IndexError
-        raise NotImplementedError
+        cursor = self._head.next
+        if len(self) == 1:
+            val = self._head.next.value
+            self.clear()
+            return val
+        for _ in range(len(self) - 2):
+            cursor = cursor.next
+        val = cursor.next.value
+        cursor.next = self.tail.next
+        cursor = self.tail
+        self.len -= 1
+        return val
 
     def insert(self, index, value):
         """Insert value at the given index. Raise IndexError if out of range.
         Inserting at index == len(self) is allowed (appends).
         Negative indices are supported (converted to positive, clamped to 0)."""
-        raise NotImplementedError
+        if index > len(self):
+            raise IndexError
+        elif index == len(self):
+            self.push_back(value)
+        elif index == 0:
+            self.push_front(value)
+        elif index >= 0:
+            cursor = self._head.next
+            for _ in range(index - 2):
+                cursor = cursor.next
+            new = Node(value)
+            new.next = cursor.next
+            cursor.next = new
+            self.len += 1
+        else:
+            cursor = self._head.next
+            for _ in range(len(self) + index - 1):
+                cursor = cursor.next
+            new = Node(value)
+            new.next = cursor.next
+            cursor.next = new
+            self.len += 1
 
     def remove(self, value):
         """Remove the first occurrence of value. Raise ValueError if not found."""
-        raise NotImplementedError
+        cursor = self._head
+        x = 1
+        for _ in range(len(self)):
+            if cursor.next.value == value:
+                cursor.next = cursor.next.next
+                self.len -= 1
+                x = 0
+                break
+            cursor = cursor.next
+        if x != 0:
+            raise ValueError
+
 
     def clear(self):
         """Remove all elements from the list."""
-        self.head.next = self.tail.next
+        self._head.next = self.tail.next
         self.len = 0
 
     def copy(self):
