@@ -63,7 +63,7 @@ class LinkedList:
                 return True
         return False
 
-    def __eq__(self, other):
+    def __eq__(self, other): # fix this to be O(n) not O(n**2)
         """Return True if other is a LinkedList with the same values in the same order."""
         if type(self) != type(other):
             return False
@@ -107,7 +107,7 @@ class LinkedList:
 
     def is_empty(self):
         """Return True if the list has no elements."""
-        return True if len(self) == 0 else False
+        return len(self) == 0
 
     def push_front(self, value):
         """Add a value to the front of the list. O(1)."""
@@ -144,7 +144,7 @@ class LinkedList:
             cursor = cursor.next
         val = cursor.next.value
         cursor.next = self.tail.next
-        cursor = self.tail
+        self.tail = cursor
         self.len -= 1
         return val
 
@@ -153,6 +153,8 @@ class LinkedList:
         Inserting at index == len(self) is allowed (appends).
         Negative indices are supported (converted to positive, clamped to 0)."""
         if index > len(self):
+            raise IndexError
+        elif -index > len(self):
             raise IndexError
         elif index == len(self):
             self.push_back(value)
@@ -192,7 +194,7 @@ class LinkedList:
 
     def clear(self):
         """Remove all elements from the list."""
-        self._head.next = self.tail.next
+        self._head.next = None
         self.len = 0
 
     def copy(self):
