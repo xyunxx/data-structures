@@ -84,7 +84,7 @@ class LinkedList:
         else:
             if abs(index) > len(self):
                 raise IndexError
-            # do the reverse on the spot first maybe
+            return self[len(self) + index]
 
     def __setitem__(self, index, value):
         """Set the value at the given index. Support negative indices.
