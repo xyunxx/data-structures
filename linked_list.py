@@ -134,7 +134,8 @@ class LinkedList:
 
     def clear(self):
         """Remove all elements from the list."""
-        raise NotImplementedError
+        self.head.next = self.tail.next
+        self.len = 0
 
     def copy(self):
         """Return a new LinkedList that is a shallow copy of this list."""
@@ -185,7 +186,12 @@ class LinkedList:
         """Return the value at the middle node.
         For even length, return the earlier middle.
         Raise IndexError if the list is empty."""
-        raise NotImplementedError
+        if self.is_empty():
+            raise IndexError
+        if len(self) % 2 == 0:
+            return self[len(self) // 2 - 1]
+        else:
+            return self[len(self) // 2]
 
     def remove_duplicates(self):
         """Remove duplicate values in-place, keeping the first occurrence.
