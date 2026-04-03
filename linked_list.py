@@ -63,17 +63,20 @@ class LinkedList:
                 return True
         return False
 
-    def __eq__(self, other): # fix this to be O(n) not O(n**2)
+    def __eq__(self, other):
         """Return True if other is a LinkedList with the same values in the same order."""
         if type(self) != type(other):
             return False
-        try:
-            for i in range(max(len(self), len(other))):
-                if self[i] != other[i]:
-                    return False
-            return True
-        except:
+        if len(self) != len(other):
             return False
+        cursor_a = self.head
+        cursor_b = other.head
+        for _ in range(len(self)):
+            if cursor_a.value != cursor_b.value:
+                return False
+            cursor_a = cursor_a.next
+            cursor_b = cursor_b.next
+        return True
 
     def __getitem__(self, index):
         """Return the value at the given index. Support negative indices.
@@ -195,6 +198,7 @@ class LinkedList:
     def clear(self):
         """Remove all elements from the list."""
         self._head.next = None
+        self.tail = self._head
         self.len = 0
 
     def copy(self):

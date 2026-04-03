@@ -1,4 +1,3 @@
 from linked_list import LinkedList
 
-ll = LinkedList()
-print(ll.head)
+print(LinkedList([1, 2, 3]) == LinkedList([1, 2, 3]))
