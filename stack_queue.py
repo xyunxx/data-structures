@@ -10,6 +10,7 @@ Two approaches are valid:
 Both are fine. Option 2 is a great exercise in composability!
 """
 
+from linked_list import LinkedList
 
 class Stack:
     """Last-In, First-Out (LIFO) collection backed by a singly-linked list."""

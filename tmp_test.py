@@ -1,3 +1,4 @@
 from linked_list import LinkedList
+from stack_queue import Stack
 
-print(LinkedList([1, 2, 3]) == LinkedList([1, 2, 3]))
+Stack([1, 2, 3])
