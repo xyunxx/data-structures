@@ -223,7 +223,21 @@ class LinkedList:
 
     def reverse(self):
         """Reverse the list in-place. Modifies the list in-place. Returns None."""
-        raise NotImplementedError
+        if len(self) <= 1:
+            return
+
+        node_a = self._head.next
+        node_b = self._head.next.next
+        cursor = node_b
+        for _ in range(len(self) - 2):
+            cursor = cursor.next
+            node_b.next = node_a
+            node_a = node_b
+            node_b = cursor
+        cursor.next = node_a
+        self.tail = self._head.next
+        self._head.next = cursor
+        self.tail.next = None
 
     def to_list(self):
         """Return a Python list of the values."""
@@ -244,7 +258,25 @@ class LinkedList:
     def has_cycle(self):
         """Return True if there is a cycle in the list.
         Hint: look up Floyd's tortoise and hare algorithm."""
-        raise NotImplementedError
+        tortoise = self._head.next
+        hare = self._head.next
+        while hare is not None and hare.next is not None:
+            tortoise = tortoise.next
+            hare = hare.next.next
+            if hare == tortoise:
+                break
+
+        if hare is None or hare.next is None:
+            return False
+        else:
+            # Now we're measuring the size of the loop
+            count = 1
+            tortoise = tortoise.next
+            while tortoise != hare:
+                tortoise = tortoise.next
+                count += 1
+            return True
+
 
     def midpoint(self):
         """Return the value at the middle node.
@@ -260,4 +292,14 @@ class LinkedList:
     def remove_duplicates(self):
         """Remove duplicate values in-place, keeping the first occurrence.
         Modifies the list in-place. Returns None."""
-        raise NotImplementedError
+        if len(self) <= 1:
+            return
+        cursor = self._head.next
+        store = {cursor.value}
+        while cursor.next is not None:
+            if cursor.next.value in store:
+                cursor.next = cursor.next.next
+                self.len -= 1
+            else:
+                store.add(cursor.next.value)
+                cursor = cursor.next

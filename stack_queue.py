@@ -23,6 +23,7 @@ class Stack:
             self.next = next_node
 
     def __init__(self):
+        self._list = LinkedList()
         raise NotImplementedError
 
     # --- Size / emptiness -------------------------------------------------

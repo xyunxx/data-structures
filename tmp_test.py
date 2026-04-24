@@ -1,4 +1,7 @@
 from linked_list import LinkedList
 from stack_queue import Stack
 
-Stack([1, 2, 3])
+l = LinkedList([1, 1, 2, 2, 3, 3])
+print(l)
+l.remove_duplicates()
+print(l)
